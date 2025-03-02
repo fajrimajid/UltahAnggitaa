@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Bestie!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('gelang.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            padding: 50px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #message-container {
+            font-size: 18px;
+            white-space: pre-line;
+            min-height: 50px;
+        }
+        .container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .balloon {
+            position: absolute;
+            width: 100px;
+            animation: float 5s infinite ease-in-out;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+        .cake {
+            display: none;
+            width: 100px;
+            margin: 20px auto;
+            animation: glow 1s infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.5); }
+        }
+        .ribbon {
+            display: none;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .icon-button {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        .next-btn, .prev-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .calendar {
+            display: none;
+            margin: 10px auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .calendar th, .calendar td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+        .calendar td.special {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <img src="balon (1).png" class="balloon" style="left: 10%; animation-duration: 5s;">
+    <img src="balon (2).png" class="balloon" style="left: 30%; animation-duration: 6s;">
+    <img src="balon (3).png" class="balloon" style="left: 50%; animation-duration: 7s;">
+    <img src="balon (1).png" class="balloon" style="left: 70%; animation-duration: 5s;">
+    <img src="balon (2).png" class="balloon" style="left: 90%; animation-duration: 6s;">
+    <img src="balon (3).png" class="balloon" style="left: 100%; animation-duration: 7s;">
+
+    <div class="container">
+        <h1 id="title">Untuk Anggita Ardilianz Faticha! 🎉</h1>
+        <p id="message">Selamat ulang tahun anggita atau kalau dichat aku manggil mba anggita, atau panggilan khusus dari ak
+            gitok, semoga panjang umur sehat selalu, diberikan kesehatan,rezeki dan semua hal baik akan kamu dapatkan. 🎂</p>
+
+        <img id="cake" src="2.png" class="cake">
+        <img id="ribbon" src="2.png" class="ribbon">
+        
+        <div id="soundSection" class="button-container">
+            <button id="playPauseBtn" class="icon-button" onclick="toggleMusic()">🎵</button>
+            <span id="soundText">Klik Icon Lagu</span>
+        </div>
+        
+        <audio id="bg-music" loop autoplay>
+            <source src="Ultah.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <button onclick="prevPage()" id="prev" style="display: none;">Previous</button>
+        <button onclick="nextPage()" class="next-btn">Next</button>
+        
+        <table id="calendar" class="calendar">
+            <thead>
+                <tr>
+                    <th>Min</th><th>Sen</th><th>Sel</th><th>Rab</th><th>Kam</th><th>Jum</th><th>Sab</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td>1</td>
+                </tr>
+                <tr>
+                    <td>2</td><td class="special">3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+                </tr>
+                <tr>
+                    <td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td>
+                </tr>
+                <tr>
+                    <td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td>
+                </tr>
+                <tr>
+                    <td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td>
+                </tr>
+                <tr>
+                    <td>30</td><td>31</td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let page = 1;
+        const messages = [
+    "Selamat ulang tahun, Anggita! 🎂✨ Aku biasa manggil kamu Mba Anggita, kadang Gitok, tapi yang paling penting, kamu adalah seseorang yang luar biasa. Hari ini adalah hari spesialmu, dan aku berharap segala kebaikan di dunia ini selalu menyertaimu. Semoga setiap langkahmu dipenuhi kebahagiaan, kesehatan, dan keberkahan. 🤍",
+
+    "Lihat kalender ini, tanggal 3 Maret adalah hari istimewa—hari di mana dunia mendapatkan seseorang sebaik kamu! 🎈 Aku bersyukur bisa mengenalmu dan berbagi cerita bersamamu. Semoga segala impianmu terwujud satu per satu, dan kamu selalu dikelilingi orang-orang yang tulus menyayangimu.",
+
+    "Semoga panjang umur, sehat selalu, dan selalu bahagia, bestie! 💖 Kalau ada apa pun yang ingin kamu ceritakan, aku selalu ada di sini untukmu. Semoga PKL dan skripsimu berjalan lancar, dan jangan takut untuk melangkah maju! Aku percaya kamu bisa. Aku akan selalu mendukungmu dalam segala hal, tanpa merasa terbebani—karena kamu adalah sahabat yang berarti untukku.",
+
+    "Terima kasih sudah membuat hidupku lebih cerah. Ada masa-masa di mana kita tidak bertemu atau berbincang, dan jujur, rasanya hampa. Kamu adalah bagian dari duniamu sendiri, tapi entah bagaimana, kamu juga menjadi bagian dari duniaku. Bersamamu, aku merasa lebih berani, lebih hidup, dan lebih berarti. 🌸",
+
+    "Kadang waktu terasa seperti permainan, mempertemukan dan menjauhkan kita dalam cara yang misterius. Aku tidak tahu apakah ini tentang waktu yang salah atau takdir yang belum mengizinkan, tapi satu hal yang pasti—aku merasa nyaman bersamamu. Namun aku juga sadar, mungkin ada batas yang tidak bisa kulewati. Dan aku menghormati itu.",
+
+    "Terima kasih atas kejujuranmu. Itu bukan hanya sekadar kata-kata, tapi sesuatu yang sangat berharga bagiku. Setiap kebenaran yang kau ungkapkan adalah hadiah, dan aku menyimpannya dalam kenangan yang tak akan pudar.",
+
+    "Catatan kecil dariku: Kamu baik, kamu lucu, kamu ceria, kamu cantik, dan kamu memiliki hati yang begitu tulus. Kamu adalah seseorang yang berharga, dan aku ingin kamu selalu ingat itu. ✨ Tak peduli ke mana hidup membawamu, selalu ingat bahwa kamu pantas mendapatkan kebahagiaan. Dan yang paling penting, kamu adalah rumah bagi seseorang yang beruntung memilikimu. ❤️"
+]
+
+        
+        const music = document.getElementById("bg-music");
+        const playPauseBtn = document.getElementById("playPauseBtn");
+        const messageElement = document.getElementById("message");
+        const nextButton = document.querySelector(".next-btn");
+        const prevButton = document.getElementById("prev");
+        const calendar = document.getElementById("calendar");
+        const soundSection = document.getElementById("soundSection");
+    
+        function toggleMusic() {
+            if (music.paused) {
+                music.play().catch(error => console.log("Autoplay tidak diizinkan: " + error));
+                playPauseBtn.textContent = "⏸️"; // Ikon Pause
+            } else {
+                music.pause();
+                playPauseBtn.textContent = "🎵"; // Ikon Play
+            }
+        }
+
+        function typeMessage(text, callback) {
+            let i = 0;
+            messageElement.innerHTML = ""; 
+            nextButton.disabled = true; // Disable tombol saat mengetik
+            
+            let interval = setInterval(() => {
+                messageElement.innerHTML += text[i];
+                i++;
+                if (i >= text.length) {
+                    clearInterval(interval);
+                    nextButton.disabled = false; // Enable tombol setelah selesai
+                    if (callback) callback();
+                }
+            }, 100);
+        }
+        
+    const photo = document.createElement("img"); 
+    photo.src = "berdua.jpg"; // Ganti dengan path foto yang benar
+    photo.style.display = "none";
+    photo.style.maxWidth = "15%";
+    photo.style.marginTop = "20px";
+    document.querySelector(".container").appendChild(photo);
+
+        function nextPage() {
+            if (page < messages.length) {
+                page++;
+                updatePage();
+            } else {
+        // Tampilkan foto berdua saat "Klik Terakhir" ditekan
+        document.querySelector(".container").innerHTML = "";
+        document.querySelector(".container").appendChild(photo);
+        photo.style.display = "block";
+
+                    // Tampilkan pop-up setelah foto berdua muncul
+    setTimeout(() => {
+    alert("Sekali lagi selamat ulang tahun dan mohon maaf jika ada yang kurang");
+    howRestartButton();
+            }, 1000);
+    }
+        }
+    
+        function showRestartButton() {
+        const restartButton = document.createElement("button");
+        restartButton.textContent = "Kembali ke Halaman Pertama";
+        restartButton.style.padding = "10px 20px";
+        restartButton.style.fontSize = "16px";
+        restartButton.style.background = "blue";
+        restartButton.style.color = "white";
+        restartButton.style.border = "none";
+        restartButton.style.borderRadius = "10px";
+        restartButton.style.cursor = "pointer";
+        restartButton.style.marginTop = "20px";
+        restartButton.onclick = () => location.reload(); // Reload halaman
+        
+        document.querySelector(".container").appendChild(restartButton);
+    }
+        function prevPage() {
+            if (page > 1) {
+                page--;
+                updatePage();
+            }
+        }
+    
+        function updatePage() {
+            nextButton.disabled = true; // Pastikan tombol tidak bisa ditekan saat mengetik
+            prevButton.style.display = page > 1 ? "inline-block" : "none";
+    
+            if (page === 2) {
+                calendar.style.display = "table";
+            } else {
+                calendar.style.display = "none";
+            }
+    
+            soundSection.style.display = page === 1 ? "flex" : "none";
+            typeMessage(messages[page - 1]);
+        }
+        if (page === messages.length) {
+        nextButton.textContent = "Klik Terakhir"; 
+    } else {
+        nextButton.textContent = "Next";
+    }
+
+        updatePage();
+    </script>    
+    
+</body>
+</html>
